@@ -1,0 +1,28 @@
+body {
+    padding: 2%;
+}
+.mt-5 {
+     margin-top: 0!important;
+}
+
+h2 {
+    padding: 1.5rem 0;
+}
+
+a {
+    color: #9702b0;
+}
+
+a:hover{
+    color: #7a028e;
+}
+
+.btn-primary {
+    background-color: #9702b0;
+    border-color: #9702b0;
+}
+
+.btn-primary:hover {
+    background-color: #7a028e;
+    border-color: #7a028e;
+}

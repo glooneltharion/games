@@ -1,0 +1,47 @@
+<!doctype html>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="style.css">
+<head>
+    <meta charset="utf-8">
+    <title>Games Tracker •• Game</title>
+</head>
+<body>
+<section>
+    <div class="container mt-5">
+
+        <div th:unless="${game}" th:text="${error}" class="alert alert-danger" role="alert"></div>
+
+        <div th:if="${game}">
+            <h1 class="my-2 mb-4" th:text="${game.getTitle()}"></h1>
+
+            <p class="text" th:if="${game.firstCompleted}">
+                Game first completed on <span
+                    th:text="${#dates.format(game.firstCompleted, 'dd-MMM-yyyy')}">dd-MMM-yyyy</span>
+            </p>
+            <p class="text" th:unless="${game.firstCompleted}">Game has never been completed</span></p>
+
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Score</th>
+                    <th>Is Dead</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${game.players.size() > 0}" th:each="player : ${game.players}" th:object="${player}">
+                    <td th:text="*{name}">Name</td>
+                    <td th:text="*{score}">Altitude</td>
+                    <td th:text="*{isDead()}">true/false</td>
+                </tr>
+                <tr th:unless="${game.players.size() > 0}">
+                    <td colspan="4" class="text-center">No players</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+</body>
+</html>

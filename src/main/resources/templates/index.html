@@ -1,0 +1,92 @@
+<!doctype html>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="style.css">
+<head>
+    <meta charset="utf-8">
+    <title>Games Tracker</title>
+</head>
+<body>
+<section>
+    <div class="container mt-5">
+        <div th:if="${error}" th:text="${error}" class="alert alert-danger" role="alert"></div>
+
+        <div th:if="${success}" th:text="${success}" class="alert alert-success" role="alert"></div>
+
+        <h1>Games Tracker</h1>
+
+        <h2>Players overview</h2>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Game</th>
+                <th>Score</th>
+                <th>Is Dead</th>
+                <th>Save</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="player : ${players}" th:object="${player}">
+                <td th:text="*{name}">Name</td>
+                <td>
+                    <a th:object="${player.game}" th:href="@{/games/{id}(id = *{id})}" href="/games/{id}"
+                       th:text="*{name}">Game Name</a>
+                </td>
+                <td th:text="*{score}">Score</td>
+                <td th:text="*{isDead()}">true/false</td>
+                <td>
+                    <span th:unless="*{isDead()}">--</span>
+                    <a th:if="*{isDead()}" th:href="@{/players/{id}/save(id = *{id})}">save</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Play game</h2>
+
+        <form th:action="@{/players/play}" method="post">
+            <div class="form-group row">
+                <label for="id" class="col-sm-2 col-form-label">Player</label>
+                <div class="col-sm-10">
+                    <select id="id" name="id" class="form-control">
+                        <option th:each="player : ${players}" th:value="${player.id}" th:text="${player.name}">Name
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="score" class="col-sm-2 col-form-label">Score</label>
+                <div class="col-sm-10">
+                    <input type="number" min="0" id="score" name="score" class="form-control">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <h2>Add new player</h2>
+
+        <form th:action="@{/players}" method="post">
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="name" name="name">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="game-id" class="col-sm-2 col-form-label">Game</label>
+                <div class="col-sm-10">
+                    <select id="game-id" name="game-id" class="form-control">
+                        <option th:each="game : ${games}" th:value="${game.id}" th:text="${game.name}">Game Name
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</section>
+</body>
+</html>
+
